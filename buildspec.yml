@@ -1,0 +1,29 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - echo "Installing dependencies..."
+  pre_build:
+    commands:
+      - echo "Running npm install..."
+      - npm install
+  build:
+    commands:
+      - echo "Building the application..."
+      - npm run build
+  post_build:
+    commands:
+      - echo "Preparing deployment artifacts..."
+      - mkdir -p build_artifacts
+      - cp -r public build_artifacts/
+      - cp -r src build_artifacts/
+      - cp package.json build_artifacts/
+      - cp appspec.yml build_artifacts/
+      - cp -r scripts build_artifacts/
+
+artifacts:
+  files:
+    - build_artifacts/**/*
